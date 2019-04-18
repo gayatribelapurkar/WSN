@@ -1,0 +1,250 @@
+<!-- Styles -->
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TempChart</title>
+	<style>
+	#chartdiv {
+	  width: 100%;
+	  height: 500px;
+	}
+	body {
+	  /*padding-top: 100px;  padding due to fixed to top navbar */
+	}
+	* {
+	  box-sizing: border-box;
+	}
+
+	body {
+	  margin: 0px;
+	  font-family: 'segoe ui';
+	}
+
+	.nav {
+	  height: 50px;
+	  width: 100%;
+	  background-color: #4d4d4d;
+	  position: relative;
+	}
+
+	.nav > .nav-header {
+	  display: inline;
+	}
+
+	.nav > .nav-header > .nav-title {
+	  display: inline-block;
+	  font-size: 22px;
+	  color: #fff;
+	  padding: 10px 10px 10px 10px;
+	}
+
+	.nav > .nav-btn {
+	  display: none;
+	}
+
+	.nav > .nav-links {
+	  display: inline;
+	  float: right;
+	  font-size: 18px;
+	}
+
+	.nav > .nav-links > a {
+	  display: inline-block;
+	  padding: 13px 10px 13px 10px;
+	  text-decoration: none;
+	  color: #efefef;
+	}
+
+	.nav > .nav-links > a:hover {
+	  background-color: rgba(0, 0, 0, 0.3);
+	}
+
+	.nav > #nav-check {
+	  display: none;
+	}
+
+	@media (max-width:600px) {
+	  .nav > .nav-btn {
+	    display: inline-block;
+	    position: absolute;
+	    right: 0px;
+	    top: 0px;
+	  }
+	  .nav > .nav-btn > label {
+	    display: inline-block;
+	    width: 50px;
+	    height: 50px;
+	    padding: 13px;
+	  }
+	  .nav > .nav-btn > label:hover,.nav  #nav-check:checked ~ .nav-btn > label {
+	    background-color: rgba(0, 0, 0, 0.3);
+	  }
+	  .nav > .nav-btn > label > span {
+	    display: block;
+	    width: 25px;
+	    height: 10px;
+	    border-top: 2px solid #eee;
+	  }
+	  .nav > .nav-links {
+	    position: absolute;
+	    display: block;
+	    width: 100%;
+	    background-color: #333;
+	    height: 0px;
+	    transition: all 0.3s ease-in;
+	    overflow-y: hidden;
+	    top: 50px;
+	    left: 0px;
+	  }
+	  .nav > .nav-links > a {
+	    display: block;
+	    width: 100%;
+	  }
+	  .nav > #nav-check:not(:checked) ~ .nav-links {
+	    height: 0px;
+	  }
+	  .nav > #nav-check:checked ~ .nav-links {
+	    height: calc(100vh - 50px);
+	    overflow-y: auto;
+	  }
+	}
+	.count {
+		width: 110px;
+		height: 110px;
+		background: #abd2ab;
+		border-radius: 50%;
+		border: 1px solid gray;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: white;
+		font-weight: bold;
+		font-size: 40px;
+		font-family: verdana;
+		float: left;
+		margin: 30px;
+		text-shadow: 1px 1px black;
+		-webkit-box-shadow: 0px 0px 72px -9px rgba(0,0,0,0.75);
+		-moz-box-shadow: 0px 0px 72px -9px rgba(0,0,0,0.75);
+		box-shadow: 0px 0px 72px -9px rgba(0,0,0,0.75);
+	}
+	</style>
+</head>
+<body>
+	<div class="nav">
+		<input type="checkbox" id="nav-check">
+		<div class="nav-header">
+			<div class="nav-title">
+			 	Temperature Sensing AI
+			</div>
+		</div>
+		<div class="nav-btn">
+		<label for="nav-check">
+			<span></span>
+			<span></span>
+			<span></span>
+		</label>
+		</div>
+
+		<div class="nav-links">
+		<a href="#" target="_blank">Home</a>
+		<a href="#" target="_blank">Data</a>
+		<a href="#" target="_blank">ThinkSpeak API</a>
+		<a href="#" target="_blank">Analysis</a>
+		<!-- <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">JsFiddle</a> -->
+		</div>
+	</div>
+	<div style="padding-top: 5px;" id="chartdiv"></div>
+	<br>
+
+	<div style="margin-top: 0.1%;margin-left: 45%;" class="count" id="count"></div> 
+</body>
+</html>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js" integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<!-- Chart code -->
+<script>
+// Themes begin
+const counters = $(".count");
+console.log(counters[0]);
+
+$(document).ready(function() {
+
+  
+  // var countersQuantity = counters.length;
+  // var counter = [];
+
+  // for (i = 0; i < countersQuantity; i++) {
+  //   counter[i] = parseInt(counters[i].innerHTML);
+  // }
+
+  // var count = function(start, value, id) {
+  //   var localStart = start;
+  //   setInterval(function() {
+  //     if (localStart < value) {
+  //       localStart++;
+  //       counters[id].innerHTML = localStart;
+  //     }
+  //   }, 40);
+  // }
+
+  // for (j = 0; j < countersQuantity; j++) {
+  //   count(0, counter[j], j);
+  // }
+});
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.XYChart);
+
+var data = [];
+var value = 40;
+for(let i = 0; i < 300; i++){
+  setTimeout(function() {
+  		let date = new Date();
+  		date.setHours(0,0,0,0);
+  		date.setDate(i);
+  		value += Math.round((Math.random() < 0.5 ? 1 : -1) * Math.random());
+  		// var data = [];
+  		data.push({date:date, value: value});    
+		chart.data = data; 
+		if(value>40){
+			counters[0].style.background = "red";
+		}else{
+			counters[0].style.background = "green";
+		} 
+  		counters[0].innerHTML=value;
+    }, 60);
+}
+
+
+
+// Create axes
+var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
+dateAxis.renderer.minGridDistance = 60;
+
+var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+// Create series
+var series = chart.series.push(new am4charts.LineSeries());
+series.dataFields.valueY = "value";
+series.dataFields.dateX = "date";
+series.tooltipText = "{value}"
+
+series.tooltip.pointerOrientation = "vertical";
+
+chart.cursor = new am4charts.XYCursor();
+chart.cursor.snapToSeries = series;
+chart.cursor.xAxis = dateAxis;
+
+//chart.scrollbarY = new am4core.Scrollbar();
+chart.scrollbarX = new am4core.Scrollbar();
+</script>
+
+<!-- HTML -->
