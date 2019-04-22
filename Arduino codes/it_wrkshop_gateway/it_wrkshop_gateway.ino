@@ -30,7 +30,10 @@ void loop() {
     float node2_data;
     float node3_data;
     float node4_data;
-    
+    const char text[10];
+    char text1[16];
+    char sendVal[50];
+    String str;
     network.read(header, &incomingData, sizeof(incomingData)); // Read the incoming data
    
     if (header.from_node == 01) {    // If data comes from Node 02
@@ -38,6 +41,11 @@ void loop() {
      node1_data= incomingData;
      Serial.println("the data from node 1 is ");
      Serial.println(node1_data);
+     str="01_" + String(node1_data);
+     Serial.println(str);
+     int strl = str.length()+1;
+     str.toCharArray(sendVal, strl);
+     Serial.println(sendVal);
 //     delay(1000);
     }
     
@@ -46,6 +54,12 @@ void loop() {
      node2_data= incomingData;
      Serial.println("the data from node 2 is");
      Serial.println(node2_data);
+
+     str="02_" + String(node2_data);
+     Serial.println(str);
+     int strl = str.length()+1;
+     str.toCharArray(sendVal, strl);
+     Serial.println(sendVal);
 //     delay(1600);
     }
 
@@ -54,6 +68,12 @@ void loop() {
      node3_data= incomingData;
      Serial.println("the data from node 3 is ");
      Serial.println(node3_data);
+
+     str="03_" + String(node3_data);
+     Serial.println(str);
+     int strl = str.length()+1;
+     str.toCharArray(sendVal, strl);
+     Serial.println(sendVal);
 //     delay(2200);
     }
 
@@ -62,6 +82,12 @@ void loop() {
      node4_data= incomingData;
      Serial.println("the data from node 4 is ");
      Serial.println(node4_data);
+
+     str="04_" + String(node4_data);
+     Serial.println(str);
+     int strl = str.length()+1;
+     str.toCharArray(sendVal, strl);
+     Serial.println(sendVal);
 //     delay(2800);
     }
 
@@ -72,6 +98,12 @@ void loop() {
 //  dtostrf(tempc, 6, 2, text);
      Serial.println("The value of the sensor in parent gateway is");
      Serial.println(tempc);
+
+     str="05_" + String(tempc);
+     Serial.println(str);
+     int strl = str.length()+1;
+     str.toCharArray(sendVal, strl);
+     Serial.println(sendVal);
 //     delay(4600);
     
   }
