@@ -189,8 +189,8 @@ FusionCharts.ready(function () {
 
 window.setInterval(function(){
   /// call your function here
-  LoadChart();
-}, 15000);
+ update();
+}, 5000);
 
 function LoadChart() {
   $.ajax({
@@ -206,6 +206,7 @@ function LoadChart() {
         var phfusioncharts = new FusionCharts({
           type: 'angulargauge',
           renderAt: 'ph-container',
+          id:"temp",
           width: '550',
           height: '400',
           dataFormat: 'json',
@@ -238,13 +239,38 @@ function LoadChart() {
                 "value": Temperature
               }]
             }
-          }
-        });
-
-        phfusioncharts.render();
-      //}
+          },
+       //    "events": {
+	      //   "rendered": function(evtObj, argObj) {
+	      //     evtObj.sender.intervalVar = setInterval(function() {
+	      //       var prcnt = 65 + parseInt(Math.floor(Math.random() * 10), 10);
+	      //       FusionCharts.items["temp"].feedData("value=" + prcnt);
+	      //     }, 5000);
+	      //   },
+	      //   "disposed": function(evtObj, argObj) {
+	      //     clearInterval(evtObj.sender.intervalVar);
+	      //   }
+	      // }
+	    })
+	    phfusioncharts.render();
     }
   });
+}
+
+function update(){
+	 $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) 
+    {
+	    console.log(data);
+		var chartRef = FusionCharts("temp");
+		var strData = "&value=" + Math.floor(Math.random()*(55-25+1)+25);
+	   	chartRef.feedData(strData);  
+   	}
+  });                   	
+   	
 }
 </script>
 
