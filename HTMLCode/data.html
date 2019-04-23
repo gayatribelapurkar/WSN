@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<title>TempChart</title>
 	<style>
 	#chartdiv {
@@ -130,6 +131,11 @@
 		box-shadow: 0px 0px 72px -9px rgba(0,0,0,0.75);
 	}
 	</style>
+	<style type="text/css">
+	    g[class^='raphael-group-'][class$='-creditgroup'] {
+	         display:none !important;
+	    }
+	</style>
 </head>
 <body>
 	<div class="nav">
@@ -147,7 +153,7 @@
 		</label>
 		</div>
 
-		<div class="nav-links">
+		<div class="nav-links" style="margin-left: 50%">
 		<a href="#" target="_blank">Home</a>
 		<a href="data.html" target="_blank">Data</a>
 		<a href="#" target="_blank">ThinkSpeak API</a>
@@ -155,13 +161,20 @@
 		<!-- <a href="https://jsfiddle.net/user/jo_Geek/" target="_blank">JsFiddle</a> -->
 		</div>
 	</div>
-	<div id="chart-container"></div>
-	<table class=""  style="margin-left: 30%;margin-top: 10%">
-	  <tr>
-	    <td><div id="ph-container" style="float:left;"></div></td>
+	<!-- <div id="ph-container" style="float:left;"></div> -->
+	<div class="row">
+		<div id="ph-container1" class="col-lg-4" style="border: 1px solid"></div>
+		<div id="ph-container2" class="col-lg-4" style="border: 1px solid"></div>
+		<div id="ph-container3" class="col-lg-4" style="border: 1px solid"></div>
+	</div>
+	<div class="row">
+		<div id="ph-container4" class="col-lg-4" style="margin-left: 18%; border: 1px solid"></div>
+		<div id="ph-container5" class="col-lg-4" style="border: 1px solid"></div>
+		<div id="ph-container" style="width: 20px; border: 1px solid"></div>
 
-	  </tr>
-	</table>
+		
+	</div>
+	  
 	<br>
 
 </body>
@@ -184,15 +197,27 @@
 <!-- Chart code -->
 <script>
 FusionCharts.ready(function () {
-  LoadChart();
+  LoadChart1();
+  LoadChart2();
+  LoadChart3();
+  LoadChart4();
+  LoadChart5();
+
+
+
 });
 
 window.setInterval(function(){
   /// call your function here
- update();
+ update1();
+ update2();
+ update3();
+ update4();
+ update5();
+
 }, 5000);
 
-function LoadChart() {
+function LoadChart1() {
   $.ajax({
     url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
     type: 'GET',
@@ -205,14 +230,14 @@ function LoadChart() {
         var Temperature = data;
         var phfusioncharts = new FusionCharts({
           type: 'angulargauge',
-          renderAt: 'ph-container',
-          id:"temp",
-          width: '550',
-          height: '400',
+          renderAt: 'ph-container1',
+          id:"temp1",
+          width: '450',
+          height: '300',
           dataFormat: 'json',
           dataSource: {
             "chart": {
-              "caption": "Temperature",
+              "caption": "Lab 1",
               "lowerLimit": "0",
               "upperLimit": "80",
               "showValue": "1",
@@ -256,8 +281,263 @@ function LoadChart() {
     }
   });
 }
-
-function update(){
+function LoadChart2() {
+  $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) {
+    	console.log('xhr success')
+      //if (data.success) {
+      	console.log("success");
+        console.log(data)
+        var Temperature = data;
+        var phfusioncharts = new FusionCharts({
+          type: 'angulargauge',
+          renderAt: 'ph-container2',
+          id:"temp2",
+          width: '450',
+          height: '300',
+          dataFormat: 'json',
+          dataSource: {
+            "chart": {
+              "caption": "Lab 2",
+              "lowerLimit": "0",
+              "upperLimit": "80",
+              "showValue": "1",
+              "valueBelowPivot": "1",
+              "theme": "fusion"
+            },
+            "colorRange": {
+              "color": [{
+                "minValue": "0",
+                "maxValue": "25",
+                "code": "#6baa01"
+              }, {
+                "minValue": "25",
+                "maxValue": "45",
+                "code": "#f8bd19"
+              }, {
+                "minValue": "50",
+                "maxValue": "80",
+                "code": "#e44a00"
+              }]
+            },
+            "dials": {
+              "dial": [{
+                "value": Temperature
+              }]
+            }
+          },
+       //    "events": {
+	      //   "rendered": function(evtObj, argObj) {
+	      //     evtObj.sender.intervalVar = setInterval(function() {
+	      //       var prcnt = 65 + parseInt(Math.floor(Math.random() * 10), 10);
+	      //       FusionCharts.items["temp"].feedData("value=" + prcnt);
+	      //     }, 5000);
+	      //   },
+	      //   "disposed": function(evtObj, argObj) {
+	      //     clearInterval(evtObj.sender.intervalVar);
+	      //   }
+	      // }
+	    })
+	    phfusioncharts.render();
+    }
+  });
+}
+function LoadChart3() {
+  $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) {
+    	console.log('xhr success')
+      //if (data.success) {
+      	console.log("success");
+        console.log(data)
+        var Temperature = data;
+        var phfusioncharts = new FusionCharts({
+          type: 'angulargauge',
+          renderAt: 'ph-container3',
+          id:"temp3",
+          width: '450',
+          height: '300',
+          dataFormat: 'json',
+          dataSource: {
+            "chart": {
+              "caption": "Lab 3",
+              "lowerLimit": "0",
+              "upperLimit": "80",
+              "showValue": "1",
+              "valueBelowPivot": "1",
+              "theme": "fusion"
+            },
+            "colorRange": {
+              "color": [{
+                "minValue": "0",
+                "maxValue": "25",
+                "code": "#6baa01"
+              }, {
+                "minValue": "25",
+                "maxValue": "45",
+                "code": "#f8bd19"
+              }, {
+                "minValue": "50",
+                "maxValue": "80",
+                "code": "#e44a00"
+              }]
+            },
+            "dials": {
+              "dial": [{
+                "value": Temperature
+              }]
+            }
+          },
+       //    "events": {
+	      //   "rendered": function(evtObj, argObj) {
+	      //     evtObj.sender.intervalVar = setInterval(function() {
+	      //       var prcnt = 65 + parseInt(Math.floor(Math.random() * 10), 10);
+	      //       FusionCharts.items["temp"].feedData("value=" + prcnt);
+	      //     }, 5000);
+	      //   },
+	      //   "disposed": function(evtObj, argObj) {
+	      //     clearInterval(evtObj.sender.intervalVar);
+	      //   }
+	      // }
+	    })
+	    phfusioncharts.render();
+    }
+  });
+}
+function LoadChart4() {
+  $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) {
+    	console.log('xhr success')
+      //if (data.success) {
+      	console.log("success");
+        console.log(data)
+        var Temperature = data;
+        var phfusioncharts = new FusionCharts({
+          type: 'angulargauge',
+          renderAt: 'ph-container4',
+          id:"temp4",
+          width: '450',
+          height: '300',
+          dataFormat: 'json',
+          dataSource: {
+            "chart": {
+              "caption": "Lab 4",
+              "lowerLimit": "0",
+              "upperLimit": "80",
+              "showValue": "1",
+              "valueBelowPivot": "1",
+              "theme": "fusion"
+            },
+            "colorRange": {
+              "color": [{
+                "minValue": "0",
+                "maxValue": "25",
+                "code": "#6baa01"
+              }, {
+                "minValue": "25",
+                "maxValue": "45",
+                "code": "#f8bd19"
+              }, {
+                "minValue": "50",
+                "maxValue": "80",
+                "code": "#e44a00"
+              }]
+            },
+            "dials": {
+              "dial": [{
+                "value": Temperature
+              }]
+            }
+          },
+       //    "events": {
+	      //   "rendered": function(evtObj, argObj) {
+	      //     evtObj.sender.intervalVar = setInterval(function() {
+	      //       var prcnt = 65 + parseInt(Math.floor(Math.random() * 10), 10);
+	      //       FusionCharts.items["temp"].feedData("value=" + prcnt);
+	      //     }, 5000);
+	      //   },
+	      //   "disposed": function(evtObj, argObj) {
+	      //     clearInterval(evtObj.sender.intervalVar);
+	      //   }
+	      // }
+	    })
+	    phfusioncharts.render();
+    }
+  });
+}
+function LoadChart5() {
+  $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) {
+    	console.log('xhr success')
+      //if (data.success) {
+      	console.log("success");
+        console.log(data)
+        var Temperature = data;
+        var phfusioncharts = new FusionCharts({
+          type: 'angulargauge',
+          renderAt: 'ph-container5',
+          id:"temp5",
+          width: '450',
+          height: '300',
+          dataFormat: 'json',
+          dataSource: {
+            "chart": {
+              "caption": "Lab 5",
+              "lowerLimit": "0",
+              "upperLimit": "80",
+              "showValue": "1",
+              "valueBelowPivot": "1",
+              "theme": "fusion"
+            },
+            "colorRange": {
+              "color": [{
+                "minValue": "0",
+                "maxValue": "25",
+                "code": "#6baa01"
+              }, {
+                "minValue": "25",
+                "maxValue": "45",
+                "code": "#f8bd19"
+              }, {
+                "minValue": "50",
+                "maxValue": "80",
+                "code": "#e44a00"
+              }]
+            },
+            "dials": {
+              "dial": [{
+                "value": Temperature
+              }]
+            }
+          },
+       //    "events": {
+	      //   "rendered": function(evtObj, argObj) {
+	      //     evtObj.sender.intervalVar = setInterval(function() {
+	      //       var prcnt = 65 + parseInt(Math.floor(Math.random() * 10), 10);
+	      //       FusionCharts.items["temp"].feedData("value=" + prcnt);
+	      //     }, 5000);
+	      //   },
+	      //   "disposed": function(evtObj, argObj) {
+	      //     clearInterval(evtObj.sender.intervalVar);
+	      //   }
+	      // }
+	    })
+	    phfusioncharts.render();
+    }
+  });
+}
+function update1(){
 	 $.ajax({
     url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
     type: 'GET',
@@ -265,12 +545,67 @@ function update(){
     success: function (data) 
     {
 	    console.log(data);
-		var chartRef = FusionCharts("temp");
+		var chartRef = FusionCharts("temp1");
 		var strData = "&value=" + Math.floor(Math.random()*(55-25+1)+25);
 	   	chartRef.feedData(strData);  
    	}
-  });                   	
-   	
+  });                   	 	
+}
+function update2(){
+	 $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) 
+    {
+	    console.log(data);
+		var chartRef = FusionCharts("temp2");
+		var strData = "&value=" + Math.floor(Math.random()*(55-25+1)+25);
+	   	chartRef.feedData(strData);  
+   	}
+  });                   	 	
+}
+function update3(){
+	 $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) 
+    {
+	    console.log(data);
+		var chartRef = FusionCharts("temp3");
+		var strData = "&value=" + Math.floor(Math.random()*(55-25+1)+25);
+	   	chartRef.feedData(strData);  
+   	}
+  });                   	 	
+}
+function update4(){
+	 $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) 
+    {
+	    console.log(data);
+		var chartRef = FusionCharts("temp4");
+		var strData = "&value=" + Math.floor(Math.random()*(55-25+1)+25);
+	   	chartRef.feedData(strData);  
+   	}
+  });                   	 	
+}
+function update5(){
+	 $.ajax({
+    url: 'https://api.thingspeak.com/channels/761799/fields/field1/last?api_key=DOAFDOS69FE9Y914', // local address
+    type: 'GET',
+    crossDomain: true,
+    success: function (data) 
+    {
+	    console.log(data);
+		var chartRef = FusionCharts("temp5");
+		var strData = "&value=" + Math.floor(Math.random()*(55-25+1)+25);
+	   	chartRef.feedData(strData);  
+   	}
+  });                   	 	
 }
 </script>
 
