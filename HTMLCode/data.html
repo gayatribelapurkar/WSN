@@ -158,7 +158,7 @@
 	<div id="chart-container"></div>
 	<table class=""  style="margin-left: 30%;margin-top: 10%">
 	  <tr>
-	    <td><div id="ph-container" style="float:left;"></div></td>
+	    <td><div id="chart-container"></div></td>
 
 	  </tr>
 	</table>
@@ -202,57 +202,48 @@ function LoadChart() {
       //if (data.success) {
       	console.log("success");
         console.log(data)
+        const dataSource = {
+		  chart: {
+		    caption: "Recommended Portfolio Split",
+		    subcaption: "For a net-worth of $1M",
+		    showvalues: "1",
+		    showpercentintooltip: "0",
+		    numberprefix: "$",
+		    enablemultislicing: "1",
+		    theme: "fusion"
+		  },
+		  data: [
+		    {
+		      label: "Temperature",
+		      value: data
+		    },
+		    {
+		      label: "Debt",
+		      value: "23"
+		    },
+		    {
+		      label: "Bullion",
+		      value: "18"
+		    },
+		    {
+		      label: "Real-estate",
+		      value: "27"
+		    },
+		    {
+		      label: "Insurance",
+		      value: "20"
+		    }
+		  ]
+		};
         var Temperature = data;
-        var phfusioncharts = new FusionCharts({
-          type: 'angulargauge',
-          renderAt: 'ph-container',
-          id:"temp",
-          width: '550',
-          height: '400',
-          dataFormat: 'json',
-          dataSource: {
-            "chart": {
-              "caption": "Temperature",
-              "lowerLimit": "0",
-              "upperLimit": "80",
-              "showValue": "1",
-              "valueBelowPivot": "1",
-              "theme": "fusion"
-            },
-            "colorRange": {
-              "color": [{
-                "minValue": "0",
-                "maxValue": "25",
-                "code": "#6baa01"
-              }, {
-                "minValue": "25",
-                "maxValue": "45",
-                "code": "#f8bd19"
-              }, {
-                "minValue": "50",
-                "maxValue": "80",
-                "code": "#e44a00"
-              }]
-            },
-            "dials": {
-              "dial": [{
-                "value": Temperature
-              }]
-            }
-          },
-       //    "events": {
-	      //   "rendered": function(evtObj, argObj) {
-	      //     evtObj.sender.intervalVar = setInterval(function() {
-	      //       var prcnt = 65 + parseInt(Math.floor(Math.random() * 10), 10);
-	      //       FusionCharts.items["temp"].feedData("value=" + prcnt);
-	      //     }, 5000);
-	      //   },
-	      //   "disposed": function(evtObj, argObj) {
-	      //     clearInterval(evtObj.sender.intervalVar);
-	      //   }
-	      // }
-	    })
-	    phfusioncharts.render();
+     	var myChart = new FusionCharts({
+	    type: "pie3d",
+	    renderAt: "chart-container",
+	    width: "100%",
+	    height: "100%",
+	    dataFormat: "json",
+	    dataSource
+	  	}).render();
     }
   });
 }
